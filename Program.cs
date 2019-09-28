@@ -2,11 +2,13 @@
 
 namespace Workshop_2___Design
 {
-    class Program
+  class Program
+  {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+      Controller.User user = new Controller.User();
+
+      user.CreateMember();
     }
+  }
 }
