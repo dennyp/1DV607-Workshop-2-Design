@@ -23,6 +23,14 @@ namespace Controller
       Model.FileHandler.Save(member);
     }
 
-    
+    public void DeleteMember()
+    {
+      View.UserInterface view = new View.UserInterface();
+
+      view.PresentDeleteMemberUI();
+      string memberId = view.CollectData();
+
+      Model.FileHandler.Delete(memberId);
+    }
   }
 }
