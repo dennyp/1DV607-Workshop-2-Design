@@ -40,7 +40,16 @@ namespace Model
     }
 
     /// <summary>
-    /// Reads a file, deserializes it and returns a list of the content.
+    /// Reads members from file.
+    /// </summary>
+    /// <returns>A list of members.</returns>
+    public static List<Member> Show()
+    {
+      return ReadFile(fileName);
+    }
+
+    /// <summary>
+    /// Reads a file, deserialize it and returns a list of the content.
     /// </summary>
     /// <param name="fileName">The file to read</param>
     /// <returns>A list of deserialized members</returns>

@@ -1,4 +1,5 @@
 using System;
+using Model;
 
 namespace View
 {
@@ -9,6 +10,7 @@ namespace View
       Console.WriteLine("Please choose one below.");
       Console.WriteLine("1. Register Member");
       Console.WriteLine("2. Delete Member");
+      Console.WriteLine("3. Show a list of members");
       Console.WriteLine("Q to quit");
       Console.Write("Enter choice: ");
     }
@@ -26,5 +28,11 @@ namespace View
       Console.WriteLine("Please enter id of member that should be deleted.");
       Console.Write("Member ID: ");
     }
+
+    public void PresentMemberListUI() => Console.Write("Type C for a compact list or V for a verbose list of the members: ");
+
+    public void PresentMemberString(Member member, string format) => Console.WriteLine(member.ToString(format));
+
+    public void PresentErrorMessage(string message) => Console.WriteLine(message);
   }
 }

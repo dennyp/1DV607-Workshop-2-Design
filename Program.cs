@@ -9,7 +9,7 @@ namespace Workshop_2___Design
       Boolean isRunning = true;
       View.UserInterface view = new View.UserInterface();
       Controller.Secretary secretary = new Controller.Secretary();
-      
+
       do
       {
         view.PresentMenu();
@@ -22,6 +22,9 @@ namespace Workshop_2___Design
             break;
           case "2":
             secretary.DeleteMember();
+            break;
+          case "3":
+            secretary.ShowMemberList();
             break;
           case "q":
             isRunning = false;
