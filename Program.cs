@@ -6,9 +6,28 @@ namespace Workshop_2___Design
   {
     static void Main(string[] args)
     {
-      Controller.Secretary user = new Controller.Secretary();
+      Boolean isRunning = true;
+      View.UserInterface view = new View.UserInterface();
+      Controller.Secretary secretary = new Controller.Secretary();
+      
+      do
+      {
+        view.PresentMenu();
+        string choice = view.CollectData().ToLower();
 
-      user.RegisterMember();
+        switch (choice)
+        {
+          case "1":
+            secretary.RegisterMember();
+            break;
+          case "2":
+            secretary.DeleteMember();
+            break;
+          case "q":
+            isRunning = false;
+            break;
+        }
+      } while (isRunning);
     }
   }
 }
