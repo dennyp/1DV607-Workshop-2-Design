@@ -20,9 +20,9 @@ namespace Controller
       string ssn = view.CollectData();
 
       Model.Member member = new Model.Member(name, ssn);
-      member.SaveToFile();
+      Model.FileHandler.Save(member);
     }
 
-
+    
   }
 }
