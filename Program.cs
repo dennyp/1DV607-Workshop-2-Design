@@ -26,6 +26,9 @@ namespace Workshop_2___Design
           case "3":
             secretary.ShowMemberList();
             break;
+          case "4":
+            secretary.SpecificMemberInfo();
+            break;
           case "q":
             isRunning = false;
             break;

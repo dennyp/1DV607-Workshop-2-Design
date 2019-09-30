@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Model;
 using View;
 
@@ -60,6 +61,26 @@ namespace Controller
         {
           view.PresentMemberString(member, format);
         }
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+    }
+
+    public void SpecificMemberInfo()
+    {
+      UserInterface view = new UserInterface();
+
+      try
+      {
+        List<Member> members = Model.FileHandler.Show();
+
+        view.PresentMemberInformation();
+        string memberId = view.CollectData();
+
+        Member member = members.SingleOrDefault(m => m.ID == memberId);
+        System.Console.WriteLine(member.ToString("v"));
       }
       catch (Exception ex)
       {

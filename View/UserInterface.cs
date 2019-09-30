@@ -11,6 +11,7 @@ namespace View
       Console.WriteLine("1. Register Member");
       Console.WriteLine("2. Delete Member");
       Console.WriteLine("3. Show a list of members");
+      Console.WriteLine("4. Specific member information");
       Console.WriteLine("Q to quit");
       Console.Write("Enter choice: ");
     }
@@ -34,5 +35,7 @@ namespace View
     public void PresentMemberString(Member member, string format) => Console.WriteLine(member.ToString(format));
 
     public void PresentErrorMessage(string message) => Console.WriteLine(message);
+
+    public void PresentMemberInformation() => Console.Write("Enter member ID: ");
   }
 }
