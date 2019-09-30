@@ -6,9 +6,9 @@ namespace Workshop_2___Design
   {
     static void Main(string[] args)
     {
-      Controller.User user = new Controller.User();
+      Controller.Secretary user = new Controller.Secretary();
 
-      user.CreateMember();
+      user.RegisterMember();
     }
   }
 }

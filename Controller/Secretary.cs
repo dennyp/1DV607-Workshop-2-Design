@@ -1,8 +1,13 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using Newtonsoft.Json;
+
 namespace Controller
 {
-  public class User
+  public class Secretary
   {
-    public void CreateMember()
+    public void RegisterMember()
     {
       View.UserInterface view = new View.UserInterface();
 
@@ -15,6 +20,9 @@ namespace Controller
       string ssn = view.CollectData();
 
       Model.Member member = new Model.Member(name, ssn);
+      member.SaveToFile();
     }
+
+
   }
 }
