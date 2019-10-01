@@ -17,17 +17,56 @@ namespace Controller
     public void RegisterMember()
     {
       UserInterface view = new UserInterface();
+      try
+      {
+        view.PresentMemberCreationUI();
 
-      view.PresentMemberCreationUI();
+        view.PresentMemberNameUI();
+        string name = view.CollectData();
 
-      view.PresentMemberNameUI();
-      string name = view.CollectData();
+        view.PresentMemberPersonalIdUI();
+        string ssn = view.CollectData();
 
-      view.PresentMemberPersonalIdUI();
-      string ssn = view.CollectData();
+        Member member = new Member(name, ssn);
+        FileHandler.Save(member);
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+    }
 
-      Member member = new Member(name, ssn);
-      Model.FileHandler.Save(member);
+    /// <summary>
+    /// Changes the information of a member.
+    /// </summary>
+    public void ChangeMemberInfo()
+    {
+      UserInterface view = new UserInterface();
+      try
+      {
+        List<Member> members = FileHandler.Show();
+
+        view.PresentMemberInfoUI();
+        view.PresentMemberPersonalIdUI();
+        string memberId = view.CollectData();
+        Member member = members.SingleOrDefault(m => m.ID == memberId);
+
+        view.PresentMemberNameUI();
+        string name = view.CollectData();
+
+        view.PresentMemberPersonalIdUI();
+        string ssn = view.CollectData();
+
+        FileHandler.Delete(memberId);
+        member.Name = name;
+        member.SSN = ssn;
+        FileHandler.Save(member);
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+
     }
 
     /// <summary>
@@ -37,10 +76,18 @@ namespace Controller
     {
       UserInterface view = new UserInterface();
 
-      view.PresentDeleteMemberUI();
-      string memberId = view.CollectData();
+      try
+      {
+        view.PresentDeleteMemberUI();
+        string memberId = view.CollectData();
 
-      Model.FileHandler.Delete(memberId);
+        FileHandler.Delete(memberId);
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+
     }
 
     /// <summary>
@@ -52,7 +99,7 @@ namespace Controller
 
       try
       {
-        List<Member> members = Model.FileHandler.Show();
+        List<Member> members = FileHandler.Show();
 
         view.PresentMemberListUI();
         string format = view.CollectData();
@@ -68,13 +115,16 @@ namespace Controller
       }
     }
 
+    /// <summary>
+    /// Finds a specific member and presents his information.
+    /// </summary>
     public void SpecificMemberInfo()
     {
       UserInterface view = new UserInterface();
 
       try
       {
-        List<Member> members = Model.FileHandler.Show();
+        List<Member> members = FileHandler.Show();
 
         view.PresentMemberInformation();
         string memberId = view.CollectData();

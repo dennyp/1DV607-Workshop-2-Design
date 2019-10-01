@@ -29,6 +29,9 @@ namespace Workshop_2___Design
           case "4":
             secretary.SpecificMemberInfo();
             break;
+          case "5":
+            secretary.ChangeMemberInfo();
+            break;
           case "q":
             isRunning = false;
             break;

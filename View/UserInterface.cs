@@ -12,6 +12,7 @@ namespace View
       Console.WriteLine("2. Delete Member");
       Console.WriteLine("3. Show a list of members");
       Console.WriteLine("4. Specific member information");
+      Console.WriteLine("5. Change member information");
       Console.WriteLine("Q to quit");
       Console.Write("Enter choice: ");
     }
@@ -29,6 +30,8 @@ namespace View
       Console.WriteLine("Please enter id of member that should be deleted.");
       Console.Write("Member ID: ");
     }
+
+    public void PresentMemberInfoUI() => Console.WriteLine("Change the following member.");
 
     public void PresentMemberListUI() => Console.Write("Type C for a compact list or V for a verbose list of the members: ");
 
