@@ -6,4 +6,8 @@
     <RootNamespace>Workshop_2___Design</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="newtonsoft.json" Version="12.0.2" />
+  </ItemGroup>
+
 </Project>

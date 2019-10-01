@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Model
 {
@@ -27,6 +28,12 @@ namespace Model
     // TODO : ssn should be validated
 
     /// <summary>
+    /// List of the boats belonging to the member.
+    /// </summary>
+    /// <value></value>
+    public List<Boat> Boats { get; set; }
+
+    /// <summary>
     /// Creates a member. ID is created by using current time.
     /// </summary>
     /// <param name="name">Name of the member.</param>
@@ -36,6 +43,7 @@ namespace Model
       ID = DateTime.Now.ToString("MMddmmssff");
       Name = name;
       SSN = ssn;
+      Boats = new List<Boat>();
     }
 
     /// <summary>

@@ -12,6 +12,137 @@ namespace Controller
   public class Secretary
   {
     /// <summary>
+    /// Change the information of a boat.
+    /// </summary>
+    public void ChangeBoatInfo()
+    {
+      UserInterface view = new UserInterface();
+      try
+      {
+        // TODO : Refactor - duplicate code.
+        view.PresentBoatUI();
+        string boatId = view.CollectData();
+
+        view.PresentBoatTypeUI();
+        string type = view.CollectData().ToLower();
+
+        view.PresentBoatLengthUI();
+        string length = view.CollectData();
+
+        Member member = FileHandler.UpdateBoat(boatId, type, length);
+        FileHandler.Delete(member.ID);
+        FileHandler.Save(member);
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+    }
+
+    /// <summary>
+    /// Changes the information of a member.
+    /// </summary>
+    public void ChangeMemberInfo()
+    {
+      UserInterface view = new UserInterface();
+
+      try
+      {
+        List<Member> members = FileHandler.GetMembers();
+
+        view.PresentMemberInfoUI();
+        view.PresentMemberPersonalIdUI();
+        string memberId = view.CollectData();
+        Member member = members.SingleOrDefault(m => m.ID == memberId);
+
+        view.PresentMemberNameUI();
+        string name = view.CollectData();
+
+        view.PresentMemberPersonalIdUI();
+        string ssn = view.CollectData();
+
+        FileHandler.Delete(memberId);
+        member.Name = name;
+        member.SSN = ssn;
+        FileHandler.Save(member);
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+    }
+
+    /// <summary>
+    /// Delete a boat.
+    /// </summary>
+    public void DeleteBoat()
+    {
+      UserInterface view = new UserInterface();
+
+      try
+      {
+        view.PresentBoatUI();
+        string boatId = view.CollectData();
+        FileHandler.DeleteBoat(boatId);
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+    }
+
+    /// <summary>
+    /// Deletes a member from the member file.
+    /// </summary>
+    public void DeleteMember()
+    {
+      UserInterface view = new UserInterface();
+
+      try
+      {
+        view.PresentMemberUI();
+        string memberId = view.CollectData();
+
+        FileHandler.Delete(memberId);
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+
+    }
+
+    /// <summary>
+    /// Registers a boat to a member.
+    /// </summary>
+    public void RegisterBoat()
+    {
+      UserInterface view = new UserInterface();
+
+      try
+      {
+        view.PresentBoatCreationUI();
+
+        view.PresentMemberUI();
+        string memberId = view.CollectData();
+
+        view.PresentBoatTypeUI();
+        string type = view.CollectData().ToLower();
+
+        view.PresentBoatLengthUI();
+        string length = view.CollectData();
+
+        Member member = FileHandler.RegisterBoat(memberId, type, length);
+        FileHandler.Delete(member.ID);
+        FileHandler.Save(member);
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+    }
+
+    /// <summary>
     /// Registers a member and saves it to a member file.
     /// </summary>
     public void RegisterMember()
@@ -37,60 +168,6 @@ namespace Controller
     }
 
     /// <summary>
-    /// Changes the information of a member.
-    /// </summary>
-    public void ChangeMemberInfo()
-    {
-      UserInterface view = new UserInterface();
-      try
-      {
-        List<Member> members = FileHandler.Show();
-
-        view.PresentMemberInfoUI();
-        view.PresentMemberPersonalIdUI();
-        string memberId = view.CollectData();
-        Member member = members.SingleOrDefault(m => m.ID == memberId);
-
-        view.PresentMemberNameUI();
-        string name = view.CollectData();
-
-        view.PresentMemberPersonalIdUI();
-        string ssn = view.CollectData();
-
-        FileHandler.Delete(memberId);
-        member.Name = name;
-        member.SSN = ssn;
-        FileHandler.Save(member);
-      }
-      catch (Exception ex)
-      {
-        view.PresentErrorMessage(ex.Message);
-      }
-
-    }
-
-    /// <summary>
-    /// Deletes a member from the member file.
-    /// </summary>
-    public void DeleteMember()
-    {
-      UserInterface view = new UserInterface();
-
-      try
-      {
-        view.PresentDeleteMemberUI();
-        string memberId = view.CollectData();
-
-        FileHandler.Delete(memberId);
-      }
-      catch (Exception ex)
-      {
-        view.PresentErrorMessage(ex.Message);
-      }
-
-    }
-
-    /// <summary>
     /// Reads all the members from the member file and presents them to the view.
     /// </summary>
     public void ShowMemberList()
@@ -99,7 +176,7 @@ namespace Controller
 
       try
       {
-        List<Member> members = FileHandler.Show();
+        List<Member> members = FileHandler.GetMembers();
 
         view.PresentMemberListUI();
         string format = view.CollectData();
@@ -124,7 +201,7 @@ namespace Controller
 
       try
       {
-        List<Member> members = FileHandler.Show();
+        List<Member> members = FileHandler.GetMembers();
 
         view.PresentMemberInformation();
         string memberId = view.CollectData();

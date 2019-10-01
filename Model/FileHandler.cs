@@ -2,6 +2,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Model
 {
@@ -16,15 +17,17 @@ namespace Model
     private const string fileName = "members.json";
 
     /// <summary>
-    /// Reads the member file, adds the member to JSON and creates a new member file.
+    /// Serializes list of members to JSON and saves to file.
     /// </summary>
-    /// <param name="member">Member to save</param>
-    public static void Save(Member member)
+    /// <param name="list">The list of members</param>
+    /// <param name="fileName">The file to create</param>
+    private static void CreateFile(List<Member> list, string fileName)
     {
-      List<Member> list = ReadFile(fileName);
-      list.Add(member);
-
-      CreateFile(list, fileName);
+      using (StreamWriter file = File.CreateText(fileName))
+      {
+        JsonSerializer serializer = new JsonSerializer();
+        serializer.Serialize(file, list);
+      }
     }
 
     /// <summary>
@@ -33,17 +36,55 @@ namespace Model
     /// <param name="memberId">ID of member to delete.</param>
     public static void Delete(string memberId)
     {
-      List<Member> list = ReadFile(fileName);
+      List<Member> list = GetMembers();
       list.Remove(list.SingleOrDefault(x => x.ID == memberId));
 
       CreateFile(list, fileName);
     }
 
     /// <summary>
+    /// Delete a boat from a member.
+    /// </summary>
+    /// <param name="boatId">ID of the boat to delete.</param>
+    public static void DeleteBoat(string boatId)
+    {
+      Member member = FindMemberWithBoatId(boatId);
+
+      member.Boats.Remove(member.Boats.SingleOrDefault(b => b.ID == boatId));
+
+      Delete(member.ID);
+      Save(member);
+    }
+
+    /// <summary>
+    /// Finds the member with the specified boat ID.
+    /// </summary>
+    /// <param name="boatId">The ID of the boat.</param>
+    /// <returns>A member object that owns the boat.</returns>
+    public static Member FindMemberWithBoatId(string boatId)
+    {
+      List<Member> members = GetMembers();
+
+      string memberWithBoatId = "";
+      foreach (var member in members)
+      {
+        foreach (var boat in member.Boats)
+        {
+          if (boat.ID == boatId)
+          {
+            memberWithBoatId = member.ID;
+          }
+        }
+      }
+
+      return members.SingleOrDefault(m => m.ID == memberWithBoatId);
+    }
+
+    /// <summary>
     /// Reads members from file.
     /// </summary>
     /// <returns>A list of members.</returns>
-    public static List<Member> Show()
+    public static List<Member> GetMembers()
     {
       return ReadFile(fileName);
     }
@@ -66,17 +107,54 @@ namespace Model
     }
 
     /// <summary>
-    /// Serializes list of members to JSON and saves to file.
+    /// Registers a boat to a member.
     /// </summary>
-    /// <param name="list">The list of members</param>
-    /// <param name="fileName">The file to create</param>
-    private static void CreateFile(List<Member> list, string fileName)
+    /// <param name="memberId">The member who owns the boat.</param>
+    /// <param name="type">The type of the boat.</param>
+    /// <param name="length">The length of the boat</param>
+    /// <returns>The owner of the boat.</returns>
+    public static Member RegisterBoat(string memberId, string type, string length)
     {
-      using (StreamWriter file = File.CreateText(fileName))
-      {
-        JsonSerializer serializer = new JsonSerializer();
-        serializer.Serialize(file, list);
-      }
+      List<Member> members = FileHandler.GetMembers();
+      Member member = members.SingleOrDefault(m => m.ID == memberId);
+
+      BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
+      Boat boat = new Boat(boatType, double.Parse(length));
+      member.Boats.Add(boat);
+      return member;
+    }
+
+    /// <summary>
+    /// Reads the member file, adds the member to JSON and creates a new member file.
+    /// </summary>
+    /// <param name="member">Member to save</param>
+    public static void Save(Member member)
+    {
+      List<Member> members = GetMembers();
+      members.Add(member);
+
+      CreateFile(members, fileName);
+    }
+
+    /// <summary>
+    /// Updates info of a boat.
+    /// </summary>
+    /// <param name="boatId">The ID of the boat.</param>
+    /// <param name="type">The type of the boat.</param>
+    /// <param name="length">The length of the boat.</param>
+    /// <returns>The member who owns the boat.</returns>
+    public static Member UpdateBoat(string boatId, string type, string length)
+    {
+      List<Member> members = FileHandler.GetMembers();
+      Member member = FindMemberWithBoatId(boatId);
+
+      BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
+      Boat boat = member.Boats.SingleOrDefault(b => b.ID == boatId);
+      boat.Length = int.Parse(length);
+      boat.Type = boatType;
+
+      // member.Boats.Add(boat);
+      return member;
     }
   }
 }

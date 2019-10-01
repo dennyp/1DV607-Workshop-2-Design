@@ -32,6 +32,15 @@ namespace Workshop_2___Design
           case "5":
             secretary.ChangeMemberInfo();
             break;
+          case "6":
+            secretary.RegisterBoat();
+            break;
+          case "7":
+            secretary.DeleteBoat();
+            break;
+          case "8":
+            secretary.ChangeBoatInfo();
+            break;
           case "q":
             isRunning = false;
             break;

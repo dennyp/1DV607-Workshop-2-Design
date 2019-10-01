@@ -4,7 +4,7 @@ namespace Model
   {
     sailboat,
     motorsailer,
-    kayakCanoe,
+    kayakcanoe,
     other
   }
 }

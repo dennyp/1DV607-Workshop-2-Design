@@ -13,6 +13,9 @@ namespace View
       Console.WriteLine("3. Show a list of members");
       Console.WriteLine("4. Specific member information");
       Console.WriteLine("5. Change member information");
+      Console.WriteLine("6. Register boat");
+      Console.WriteLine("7. Delete boat");
+      Console.WriteLine("8. Change boat information");
       Console.WriteLine("Q to quit");
       Console.Write("Enter choice: ");
     }
@@ -25,11 +28,23 @@ namespace View
 
     public string CollectData() => Console.ReadLine();
 
-    public void PresentDeleteMemberUI()
+    public void PresentMemberUI()
     {
-      Console.WriteLine("Please enter id of member that should be deleted.");
+      Console.WriteLine("Please enter id of member.");
       Console.Write("Member ID: ");
     }
+
+    public void PresentBoatUI()
+    {
+      Console.WriteLine("Please enter ID of the boat.");
+      Console.Write("Boat ID: ");
+    }
+
+    public void PresentBoatCreationUI() => Console.WriteLine("Create a new boat for a member. (Sailboat, Motorsailer, Kayakcanoe, Other)");
+
+    public void PresentBoatTypeUI() => Console.Write("Type: ");
+
+    public void PresentBoatLengthUI() => Console.Write("Length: ");
 
     public void PresentMemberInfoUI() => Console.WriteLine("Change the following member.");
 
