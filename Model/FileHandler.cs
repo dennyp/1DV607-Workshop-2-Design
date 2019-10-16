@@ -153,7 +153,6 @@ namespace Model
       boat.Length = int.Parse(length);
       boat.Type = boatType;
 
-      // member.Boats.Add(boat);
       return member;
     }
   }
