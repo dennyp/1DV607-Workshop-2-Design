@@ -50,7 +50,20 @@ namespace View
 
     public void PresentMemberListUI() => Console.Write("Type C for a compact list or V for a verbose list of the members: ");
 
-    public void PresentMemberString(Member member, string format) => Console.WriteLine(member.ToString(format));
+    public void PresentMemberString(Member member)
+    {
+      Console.WriteLine($"Name: {member.Name}");
+      Console.WriteLine($"Member id: {member.ID}");
+      // TODO Console.WriteLine($"Number of boats: {member.NumberOfBoats}");
+    }
+
+    public void PresentVerboseMemberString(Member member)
+    {
+      Console.WriteLine($"Name: {member.Name}");
+      Console.WriteLine($"SSN: {member.SSN}");
+      Console.WriteLine($"Member id: {member.ID}");
+      // TODO Boats with boat information
+    }
 
     public void PresentErrorMessage(string message) => Console.WriteLine(message);
 

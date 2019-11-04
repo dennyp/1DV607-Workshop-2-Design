@@ -17,6 +17,22 @@ namespace Model
     private const string fileName = "members.json";
 
     /// <summary>
+    /// Changes the member's information.
+    /// </summary>
+    /// <param name="id">Id of the member</param>
+    /// <param name="name">Name of the member</param>
+    /// <param name="ssn">SSN of the member</param>
+    public void ChangeMemberInformation(string id, string name, string ssn)
+    {
+      List<Member> members = GetMembers();
+      Member member = members.SingleOrDefault(m => m.ID == id);
+      Delete(id);
+      member.Name = name;
+      member.SSN = ssn;
+      Save(member);
+    }
+
+    /// <summary>
     /// Serializes list of members to JSON and saves to file.
     /// </summary>
     /// <param name="list">The list of members</param>
@@ -112,8 +128,7 @@ namespace Model
     /// <param name="memberId">The member who owns the boat.</param>
     /// <param name="type">The type of the boat.</param>
     /// <param name="length">The length of the boat</param>
-    /// <returns>The owner of the boat.</returns>
-    public Member RegisterBoat(string memberId, string type, string length)
+    public void RegisterBoat(string memberId, string type, string length)
     {
       List<Member> members = GetMembers();
       Member member = members.SingleOrDefault(m => m.ID == memberId);
@@ -121,7 +136,19 @@ namespace Model
       BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
       Boat boat = new Boat(boatType, double.Parse(length));
       member.Boats.Add(boat);
-      return member;
+      Delete(member.ID);
+      Save(member);
+    }
+
+    /// <summary>
+    /// Saves a member to file.
+    /// </summary>
+    /// <param name="name">Name of the member</param>
+    /// <param name="ssn">SSN of the member</param>
+    public void RegisterMember(string name, string ssn)
+    {
+      Member member = new Member(name, ssn);
+      Save(member);
     }
 
     /// <summary>
@@ -142,8 +169,7 @@ namespace Model
     /// <param name="boatId">The ID of the boat.</param>
     /// <param name="type">The type of the boat.</param>
     /// <param name="length">The length of the boat.</param>
-    /// <returns>The member who owns the boat.</returns>
-    public Member UpdateBoat(string boatId, string type, string length)
+    public void UpdateBoat(string boatId, string type, string length)
     {
       List<Member> members = GetMembers();
       Member member = FindMemberWithBoatId(boatId);
@@ -153,7 +179,8 @@ namespace Model
       boat.Length = int.Parse(length);
       boat.Type = boatType;
 
-      return member;
+      Delete(member.ID);
+      Save(member);
     }
   }
 }

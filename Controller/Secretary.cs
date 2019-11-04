@@ -12,10 +12,12 @@ namespace Controller
   public class Secretary
   {
     private FileHandler fileHandler;
+    private UserInterface view;
 
     public Secretary()
     {
       fileHandler = new FileHandler();
+      view = new UserInterface();
     }
 
     /// <summary>
@@ -23,7 +25,6 @@ namespace Controller
     /// </summary>
     public void ChangeBoatInfo()
     {
-      UserInterface view = new UserInterface();
       try
       {
         // TODO : Refactor - duplicate code.
@@ -36,9 +37,7 @@ namespace Controller
         view.PresentBoatLengthUI();
         string length = view.CollectData();
 
-        Member member = fileHandler.UpdateBoat(boatId, type, length);
-        fileHandler.Delete(member.ID);
-        fileHandler.Save(member);
+        fileHandler.UpdateBoat(boatId, type, length);
       }
       catch (Exception ex)
       {
@@ -51,16 +50,12 @@ namespace Controller
     /// </summary>
     public void ChangeMemberInfo()
     {
-      UserInterface view = new UserInterface();
-
       try
       {
-        List<Member> members = fileHandler.GetMembers();
-
         view.PresentMemberInfoUI();
+
         view.PresentMemberPersonalIdUI();
         string memberId = view.CollectData();
-        Member member = members.SingleOrDefault(m => m.ID == memberId);
 
         view.PresentMemberNameUI();
         string name = view.CollectData();
@@ -68,10 +63,7 @@ namespace Controller
         view.PresentMemberPersonalIdUI();
         string ssn = view.CollectData();
 
-        fileHandler.Delete(memberId);
-        member.Name = name;
-        member.SSN = ssn;
-        fileHandler.Save(member);
+        fileHandler.ChangeMemberInformation(memberId, name, ssn);
       }
       catch (Exception ex)
       {
@@ -84,12 +76,11 @@ namespace Controller
     /// </summary>
     public void DeleteBoat()
     {
-      UserInterface view = new UserInterface();
-
       try
       {
         view.PresentBoatUI();
         string boatId = view.CollectData();
+
         fileHandler.DeleteBoat(boatId);
       }
       catch (Exception ex)
@@ -103,8 +94,6 @@ namespace Controller
     /// </summary>
     public void DeleteMember()
     {
-      UserInterface view = new UserInterface();
-
       try
       {
         view.PresentMemberUI();
@@ -124,8 +113,6 @@ namespace Controller
     /// </summary>
     public void RegisterBoat()
     {
-      UserInterface view = new UserInterface();
-
       try
       {
         view.PresentBoatCreationUI();
@@ -139,9 +126,7 @@ namespace Controller
         view.PresentBoatLengthUI();
         string length = view.CollectData();
 
-        Member member = fileHandler.RegisterBoat(memberId, type, length);
-        fileHandler.Delete(member.ID);
-        fileHandler.Save(member);
+        fileHandler.RegisterBoat(memberId, type, length);
       }
       catch (Exception ex)
       {
@@ -150,11 +135,10 @@ namespace Controller
     }
 
     /// <summary>
-    /// Registers a member and saves it to a member file.
+    /// Registers a member.
     /// </summary>
     public void RegisterMember()
     {
-      UserInterface view = new UserInterface();
       try
       {
         view.PresentMemberCreationUI();
@@ -165,8 +149,7 @@ namespace Controller
         view.PresentMemberPersonalIdUI();
         string ssn = view.CollectData();
 
-        Member member = new Member(name, ssn);
-        fileHandler.Save(member);
+        fileHandler.RegisterMember(name, ssn);
       }
       catch (Exception ex)
       {
@@ -179,8 +162,6 @@ namespace Controller
     /// </summary>
     public void ShowMemberList()
     {
-      UserInterface view = new UserInterface();
-
       try
       {
         List<Member> members = fileHandler.GetMembers();
@@ -190,7 +171,7 @@ namespace Controller
 
         foreach (var member in members)
         {
-          view.PresentMemberString(member, format);
+          view.PresentMemberString(member);
         }
       }
       catch (Exception ex)
@@ -204,8 +185,6 @@ namespace Controller
     /// </summary>
     public void SpecificMemberInfo()
     {
-      UserInterface view = new UserInterface();
-
       try
       {
         List<Member> members = fileHandler.GetMembers();
@@ -214,7 +193,7 @@ namespace Controller
         string memberId = view.CollectData();
 
         Member member = members.SingleOrDefault(m => m.ID == memberId);
-        System.Console.WriteLine(member.ToString("v"));
+        view.PresentVerboseMemberString(member);
       }
       catch (Exception ex)
       {
