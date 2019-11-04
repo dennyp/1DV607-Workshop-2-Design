@@ -21,7 +21,7 @@ namespace Model
     /// </summary>
     /// <param name="list">The list of members</param>
     /// <param name="fileName">The file to create</param>
-    private static void CreateFile(List<Member> list, string fileName)
+    private void CreateFile(List<Member> list, string fileName)
     {
       using (StreamWriter file = File.CreateText(fileName))
       {
@@ -34,7 +34,7 @@ namespace Model
     /// Delete a member from file.
     /// </summary>
     /// <param name="memberId">ID of member to delete.</param>
-    public static void Delete(string memberId)
+    public void Delete(string memberId)
     {
       List<Member> list = GetMembers();
       list.Remove(list.SingleOrDefault(x => x.ID == memberId));
@@ -46,7 +46,7 @@ namespace Model
     /// Delete a boat from a member.
     /// </summary>
     /// <param name="boatId">ID of the boat to delete.</param>
-    public static void DeleteBoat(string boatId)
+    public void DeleteBoat(string boatId)
     {
       Member member = FindMemberWithBoatId(boatId);
 
@@ -61,7 +61,7 @@ namespace Model
     /// </summary>
     /// <param name="boatId">The ID of the boat.</param>
     /// <returns>A member object that owns the boat.</returns>
-    public static Member FindMemberWithBoatId(string boatId)
+    public Member FindMemberWithBoatId(string boatId)
     {
       List<Member> members = GetMembers();
 
@@ -84,7 +84,7 @@ namespace Model
     /// Reads members from file.
     /// </summary>
     /// <returns>A list of members.</returns>
-    public static List<Member> GetMembers()
+    public List<Member> GetMembers()
     {
       return ReadFile(fileName);
     }
@@ -94,7 +94,7 @@ namespace Model
     /// </summary>
     /// <param name="fileName">The file to read</param>
     /// <returns>A list of deserialized members</returns>
-    private static List<Member> ReadFile(string fileName)
+    private List<Member> ReadFile(string fileName)
     {
       List<Member> list;
       using (StreamReader r = new StreamReader(fileName))
@@ -113,9 +113,9 @@ namespace Model
     /// <param name="type">The type of the boat.</param>
     /// <param name="length">The length of the boat</param>
     /// <returns>The owner of the boat.</returns>
-    public static Member RegisterBoat(string memberId, string type, string length)
+    public Member RegisterBoat(string memberId, string type, string length)
     {
-      List<Member> members = FileHandler.GetMembers();
+      List<Member> members = GetMembers();
       Member member = members.SingleOrDefault(m => m.ID == memberId);
 
       BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
@@ -128,7 +128,7 @@ namespace Model
     /// Reads the member file, adds the member to JSON and creates a new member file.
     /// </summary>
     /// <param name="member">Member to save</param>
-    public static void Save(Member member)
+    public void Save(Member member)
     {
       List<Member> members = GetMembers();
       members.Add(member);
@@ -143,9 +143,9 @@ namespace Model
     /// <param name="type">The type of the boat.</param>
     /// <param name="length">The length of the boat.</param>
     /// <returns>The member who owns the boat.</returns>
-    public static Member UpdateBoat(string boatId, string type, string length)
+    public Member UpdateBoat(string boatId, string type, string length)
     {
-      List<Member> members = FileHandler.GetMembers();
+      List<Member> members = GetMembers();
       Member member = FindMemberWithBoatId(boatId);
 
       BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);

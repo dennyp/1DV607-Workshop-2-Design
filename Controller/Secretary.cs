@@ -11,6 +11,13 @@ namespace Controller
   /// </summary>
   public class Secretary
   {
+    private FileHandler fileHandler;
+
+    public Secretary()
+    {
+      fileHandler = new FileHandler();
+    }
+
     /// <summary>
     /// Change the information of a boat.
     /// </summary>
@@ -29,9 +36,9 @@ namespace Controller
         view.PresentBoatLengthUI();
         string length = view.CollectData();
 
-        Member member = FileHandler.UpdateBoat(boatId, type, length);
-        FileHandler.Delete(member.ID);
-        FileHandler.Save(member);
+        Member member = fileHandler.UpdateBoat(boatId, type, length);
+        fileHandler.Delete(member.ID);
+        fileHandler.Save(member);
       }
       catch (Exception ex)
       {
@@ -48,7 +55,7 @@ namespace Controller
 
       try
       {
-        List<Member> members = FileHandler.GetMembers();
+        List<Member> members = fileHandler.GetMembers();
 
         view.PresentMemberInfoUI();
         view.PresentMemberPersonalIdUI();
@@ -61,10 +68,10 @@ namespace Controller
         view.PresentMemberPersonalIdUI();
         string ssn = view.CollectData();
 
-        FileHandler.Delete(memberId);
+        fileHandler.Delete(memberId);
         member.Name = name;
         member.SSN = ssn;
-        FileHandler.Save(member);
+        fileHandler.Save(member);
       }
       catch (Exception ex)
       {
@@ -83,7 +90,7 @@ namespace Controller
       {
         view.PresentBoatUI();
         string boatId = view.CollectData();
-        FileHandler.DeleteBoat(boatId);
+        fileHandler.DeleteBoat(boatId);
       }
       catch (Exception ex)
       {
@@ -103,7 +110,7 @@ namespace Controller
         view.PresentMemberUI();
         string memberId = view.CollectData();
 
-        FileHandler.Delete(memberId);
+        fileHandler.Delete(memberId);
       }
       catch (Exception ex)
       {
@@ -132,9 +139,9 @@ namespace Controller
         view.PresentBoatLengthUI();
         string length = view.CollectData();
 
-        Member member = FileHandler.RegisterBoat(memberId, type, length);
-        FileHandler.Delete(member.ID);
-        FileHandler.Save(member);
+        Member member = fileHandler.RegisterBoat(memberId, type, length);
+        fileHandler.Delete(member.ID);
+        fileHandler.Save(member);
       }
       catch (Exception ex)
       {
@@ -159,7 +166,7 @@ namespace Controller
         string ssn = view.CollectData();
 
         Member member = new Member(name, ssn);
-        FileHandler.Save(member);
+        fileHandler.Save(member);
       }
       catch (Exception ex)
       {
@@ -176,7 +183,7 @@ namespace Controller
 
       try
       {
-        List<Member> members = FileHandler.GetMembers();
+        List<Member> members = fileHandler.GetMembers();
 
         view.PresentMemberListUI();
         string format = view.CollectData();
@@ -201,7 +208,7 @@ namespace Controller
 
       try
       {
-        List<Member> members = FileHandler.GetMembers();
+        List<Member> members = fileHandler.GetMembers();
 
         view.PresentMemberInformation();
         string memberId = view.CollectData();
