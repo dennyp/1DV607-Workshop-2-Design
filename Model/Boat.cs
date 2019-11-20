@@ -1,5 +1,3 @@
-using System;
-
 namespace Model
 {
   /// <summary>
@@ -11,17 +9,17 @@ namespace Model
     /// ID of boat.
     /// </summary>
     /// <value></value>
-    public int Id { get; set; }
+    public int Id { get; private set; }
 
     /// <summary>
     /// The length of the boat.
     /// </summary>
-    public double Length { get; set; }
+    public double Length { get; private set; }
 
     /// <summary>
     /// The type of the boat.
     /// </summary>
-    public BoatType Type { get; set; }
+    public BoatType Type { get; private set; }
 
     /// <summary>
     /// Creating a boat.
@@ -30,9 +28,18 @@ namespace Model
     /// <param name="length">The length of the boat.</param>
     public Boat(BoatType type, double length)
     {
-      Id = int.Parse(DateTime.Now.ToString("ddmmssffMM"));
       Type = type;
       Length = length;
+    }
+
+    /// <summary>
+    /// Sets the fields from a boat object to the instance fields.
+    /// </summary>
+    /// <param name="boat">The boat to copy fields from.</param>
+    public void SetFields(Boat boat)
+    {
+      Type = boat.Type;
+      Length = boat.Length;
     }
   }
 }
