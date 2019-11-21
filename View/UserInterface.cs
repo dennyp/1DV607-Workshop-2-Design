@@ -114,7 +114,18 @@ namespace View
       Console.WriteLine($"Name: {member.Name}");
       Console.WriteLine($"SSN: {member.SSN}");
       Console.WriteLine($"Member id: {member.Id}");
-      // TODO Boats with boat information
+      Console.WriteLine("Boats: ");
+      PrintBoats(member.Boats);
+    }
+
+    private void PrintBoats(List<Boat> boats)
+    {
+      int i = 0;
+      foreach (var boat in boats)
+      {
+        Console.WriteLine($"Index: {i}, Type: {boat.Type}, Length: {boat.Length}");
+        i++;
+      }
     }
 
     public void PresentErrorMessage(string message)
@@ -135,24 +146,13 @@ namespace View
       Console.WriteLine();
       Console.WriteLine("Delete a boat belonging to a member.");
 
-      int i = 0;
-      foreach (var boat in boats)
-      {
-        Console.WriteLine($"Index: {i}, Type: {boat.Type}, Length: {boat.Length}");
-        i++;
-      }
+      PrintBoats(boats);
 
       Console.Write("Enter index to delete: ");
       int index = int.Parse(Console.ReadLine());
       Console.WriteLine();
 
       return boats[index];
-    }
-
-    private void PrintBoat(Boat boat)
-    {
-      Console.WriteLine($"Type: {boat.Type}");
-      Console.WriteLine($"Length: {boat.Length}");
     }
 
     public Boat RegisterBoatUI()
