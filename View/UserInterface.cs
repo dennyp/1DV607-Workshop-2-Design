@@ -5,6 +5,13 @@ namespace View
 {
   public class UserInterface
   {
+    private const string compactListChar = "c";
+    private const string verboseListChar = "v";
+
+    public string GetCompactListChar() => compactListChar;
+
+    public string GetVerboseListChar() => verboseListChar;
+
     public void PresentMenu()
     {
       Console.WriteLine("Please choose one below.");
@@ -48,20 +55,22 @@ namespace View
 
     public void PresentMemberInfoUI() => Console.WriteLine("Change the following member.");
 
-    public void PresentMemberListUI() => Console.Write("Type C for a compact list or V for a verbose list of the members: ");
+    public void PresentMemberListUI() => Console.Write($"Type {compactListChar} for a compact list or {verboseListChar} for a verbose list of the members: ");
 
     public void PresentMemberString(Member member)
     {
       Console.WriteLine($"Name: {member.Name}");
-      Console.WriteLine($"Member id: {member.ID}");
+      Console.WriteLine($"Member id: {member.Id}");
       // TODO Console.WriteLine($"Number of boats: {member.NumberOfBoats}");
+      Console.WriteLine();
     }
 
     public void PresentVerboseMemberString(Member member)
     {
+      Console.WriteLine("-----------------------");
       Console.WriteLine($"Name: {member.Name}");
       Console.WriteLine($"SSN: {member.SSN}");
-      Console.WriteLine($"Member id: {member.ID}");
+      Console.WriteLine($"Member id: {member.Id}");
       // TODO Boats with boat information
     }
 
