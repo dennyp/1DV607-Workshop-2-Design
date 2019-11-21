@@ -104,9 +104,8 @@ namespace Model
     /// Removes a member from the member list and saves the list to file.
     /// </summary>
     /// <param name="id">Id of the member to remove.</param>
-    public void RemoveMemberFromFile(int id)
+    public void RemoveMemberFromFile(Member member)
     {
-      Member member = members.SingleOrDefault(m => m.Id == id);
       DeleteMember(member);
       CreateFileWithMembers();
     }

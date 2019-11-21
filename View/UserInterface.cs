@@ -47,13 +47,6 @@ namespace View
       return new Member(name, ssn, memberId);
     }
 
-    public int DeleteMemberUI()
-    {
-      Console.WriteLine("Please enter id of member to delete.");
-      int memberId = GetMemberIdUI();
-      return memberId;
-    }
-
     public int GetMemberIdUI()
     {
       Console.Write("Enter member ID: ");

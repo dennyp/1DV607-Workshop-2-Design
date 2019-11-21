@@ -44,9 +44,9 @@ namespace Controller
     {
       try
       {
-        int memberId = view.DeleteMemberUI();
+        Member member = view.GetMemberUI(fileHandler);
 
-        fileHandler.RemoveMemberFromFile(memberId);
+        fileHandler.RemoveMemberFromFile(member);
       }
       catch (Exception ex)
       {
