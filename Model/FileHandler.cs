@@ -48,16 +48,11 @@ namespace Model
     /// <summary>
     /// Changes the member's information.
     /// </summary>
-    /// <param name="newMember">Member who will be changed.</param>
+    /// <param name="memberWithNewInfo">Member who will be changed.</param>
     public void ChangeMemberInformation(Member memberWithNewInfo)
     {
-      Member memberWithOldInfo = members.SingleOrDefault(m => m.Id == memberWithNewInfo.Id);
-
-      if (memberWithOldInfo == null)
-      {
-        throw new MemberNotFoundException("No member was found with the specified ID.");
-      }
-
+      // TODO Need to copy over the boats from the old member to the new one
+      Member memberWithOldInfo = GetMember(memberWithNewInfo.Id);
       DeleteMember(memberWithOldInfo);
       SaveMember(memberWithNewInfo);
       CreateFileWithMembers();
@@ -126,6 +121,7 @@ namespace Model
       member.RemoveBoat(boat);
       DeleteMember(member);
       SaveMember(member);
+      CreateFileWithMembers();
     }
 
     /// <summary>
@@ -135,6 +131,18 @@ namespace Model
     public List<Member> GetMembers()
     {
       return ReadFile(fileName);
+    }
+
+    public Member GetMember(int id)
+    {
+      Member member = members.SingleOrDefault(m => m.Id == id);
+
+      if (member == null)
+      {
+        throw new MemberNotFoundException("No member was found with the specified ID.");
+      }
+
+      return member;
     }
 
     /// <summary>
@@ -161,13 +169,7 @@ namespace Model
     /// <param name="boat">The boat to add to a member with the memberId.</param>
     public void RegisterBoat(int memberId, Boat boat)
     {
-      Member member = members.SingleOrDefault(m => m.Id == memberId);
-
-      if (member == null)
-      {
-        throw new MemberNotFoundException("No member was found with the specified ID.");
-      }
-
+      Member member = GetMember(memberId);
       member.AddBoat(boat);
       DeleteMember(member);
       SaveMember(member);

@@ -36,7 +36,7 @@ namespace Workshop_2___Design
             secretary.RegisterBoat();
             break;
           case "7":
-            // secretary.DeleteBoat();
+            secretary.DeleteBoat();
             break;
           case "8":
             // secretary.ChangeBoatInfo();

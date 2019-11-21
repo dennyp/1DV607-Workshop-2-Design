@@ -134,20 +134,29 @@ namespace Controller
     /// <summary>
     /// Delete a boat.
     /// </summary>
-    // public void DeleteBoat()
-    // {
-    //   try
-    //   {
-    //     view.PresentBoatUI();
-    //     string boatId = view.CollectData();
+    public void DeleteBoat()
+    {
+      try
+      {
+        Member member = view.GetMemberUI(fileHandler);
+        List<Boat> boats = member.Boats;
 
-    //     fileHandler.DeleteBoat(int.Parse(boatId));
-    //   }
-    //   catch (Exception ex)
-    //   {
-    //     view.PresentErrorMessage(ex.Message);
-    //   }
-    // }
+        Boat boat = view.DeleteBoatUI(boats);
+
+        if (boat != null && member != null)
+        {
+          fileHandler.DeleteBoat(member, boat);
+        }
+        else if (boat == null)
+        {
+          view.PresentErrorMessage("Member has no boat.");
+        }
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+    }
 
     /// <summary>
     /// Registers a boat to a member.

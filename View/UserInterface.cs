@@ -57,8 +57,15 @@ namespace View
     public int GetMemberIdUI()
     {
       Console.Write("Enter member ID: ");
-      string memberId = Console.ReadLine();
-      return int.Parse(memberId);
+      return int.Parse(Console.ReadLine());
+    }
+
+    public Member GetMemberUI(FileHandler fileHandler)
+    {
+      Console.Write("Enter member ID: ");
+      int memberId = int.Parse(Console.ReadLine());
+
+      return fileHandler.GetMember(memberId);
     }
 
     public Member RegisterMemberUI()
@@ -126,8 +133,38 @@ namespace View
       Console.WriteLine();
     }
 
+    public Boat DeleteBoatUI(List<Boat> boats)
+    {
+      if (boats.Count == 0)
+      {
+        return null;
+      }
+      Console.WriteLine();
+      Console.WriteLine("Delete a boat belonging to a member.");
+
+      int i = 0;
+      foreach (var boat in boats)
+      {
+        Console.WriteLine($"Index: {i}, Type: {boat.Type}, Length: {boat.Length}");
+        i++;
+      }
+
+      Console.Write("Enter index to delete: ");
+      int index = int.Parse(Console.ReadLine());
+      Console.WriteLine();
+
+      return boats[index];
+    }
+
+    private void PrintBoat(Boat boat)
+    {
+      Console.WriteLine($"Type: {boat.Type}");
+      Console.WriteLine($"Length: {boat.Length}");
+    }
+
     public Boat RegisterBoatUI()
     {
+      Console.WriteLine();
       Console.WriteLine("Create a new boat for a member.");
 
       Console.Write("Boat type (Sailboat, Motorsailer, Kayakcanoe, Other): ");
@@ -135,10 +172,10 @@ namespace View
 
       Console.Write("Length: ");
       string length = Console.ReadLine();
+      Console.WriteLine();
 
       BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
       return new Boat(boatType, double.Parse(length));
     }
-
   }
 }
