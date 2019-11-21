@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -97,6 +98,15 @@ namespace Model
     public void RemoveBoat(Boat boat)
     {
       Boats.Remove(boat);
+    }
+
+    /// <summary>
+    /// Copies a list of boats to the instance.
+    /// </summary>
+    /// <param name="boats">List of boats.</param>
+    public void CopyBoats(List<Boat> boats)
+    {
+      Boats = boats;
     }
   }
 }

@@ -51,8 +51,8 @@ namespace Model
     /// <param name="memberWithNewInfo">Member who will be changed.</param>
     public void ChangeMemberInformation(Member memberWithNewInfo)
     {
-      // TODO Need to copy over the boats from the old member to the new one
       Member memberWithOldInfo = GetMember(memberWithNewInfo.Id);
+      memberWithNewInfo.CopyBoats(memberWithOldInfo.Boats);
       DeleteMember(memberWithOldInfo);
       SaveMember(memberWithNewInfo);
       CreateFileWithMembers();
