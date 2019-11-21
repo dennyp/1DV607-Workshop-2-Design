@@ -11,89 +11,141 @@ namespace Model
   /// </summary>
   public class FileHandler
   {
+    private int memberId;
+    private List<Member> members = new List<Member>();
+
     /// <summary>
     /// The filename for the JSON file that members are stored in.
     /// </summary>
     private const string fileName = "members.json";
 
+    public FileHandler()
+    {
+      members = GetMembers();
+      memberId = GetNextMemberId();
+    }
+
+    /// <summary>
+    /// Calculates the next available id for the members.
+    /// </summary>
+    /// <returns>The next available id.</returns>
+    private int GetNextMemberId()
+    {
+      int nextId = 0;
+      int highestId = 0;
+      foreach (var member in members)
+      {
+        if (member.Id > highestId)
+        {
+          highestId = member.Id;
+        }
+      }
+
+      nextId = highestId + 1;
+
+      return nextId;
+    }
+
     /// <summary>
     /// Changes the member's information.
     /// </summary>
-    /// <param name="id">Id of the member</param>
-    /// <param name="name">Name of the member</param>
-    /// <param name="ssn">SSN of the member</param>
-    public void ChangeMemberInformation(string id, string name, string ssn)
+    /// <param name="newMember">Member who will be changed.</param>
+    public void ChangeMemberInformation(Member memberWithNewInfo)
     {
-      List<Member> members = GetMembers();
-      Member member = members.SingleOrDefault(m => m.ID == id);
-      Delete(id);
-      member.Name = name;
-      member.SSN = ssn;
-      Save(member);
+      Member memberWithOldInfo = members.SingleOrDefault(m => m.Id == memberWithNewInfo.Id);
+      DeleteMember(memberWithOldInfo);
+      SaveMember(memberWithNewInfo);
+      CreateFileWithMembers();
+    }
+
+    /// <summary>
+    /// Deletes a member from the member list.
+    /// </summary>
+    /// <param name="member">Member to delete.</param>
+    public void DeleteMember(Member member)
+    {
+      members.Remove(member);
+    }
+
+    /// <summary>
+    /// Saves a member to the member list.
+    /// </summary>
+    /// <param name="member">Member to save</param>
+    public void SaveMember(Member member)
+    {
+      members.Add(member);
+    }
+
+    /// <summary>
+    /// Adding a member to list and saves the list to file.
+    /// </summary>
+    /// <param name="member">Member to be saved and written to file.</param>
+    public void SaveMemberToFile(Member member)
+    {
+      Member newMember = new Member(member, memberId);
+      SaveMember(newMember);
+      CreateFileWithMembers();
+      memberId++;
+    }
+
+    /// <summary>
+    /// Removes a member from the member list and saves the list to file.
+    /// </summary>
+    /// <param name="id">Id of the member to remove.</param>
+    public void RemoveMemberFromFile(int id)
+    {
+      Member member = members.SingleOrDefault(m => m.Id == id);
+      DeleteMember(member);
+      CreateFileWithMembers();
     }
 
     /// <summary>
     /// Serializes list of members to JSON and saves to file.
     /// </summary>
-    /// <param name="list">The list of members</param>
-    /// <param name="fileName">The file to create</param>
-    private void CreateFile(List<Member> list, string fileName)
+    private void CreateFileWithMembers()
     {
       using (StreamWriter file = File.CreateText(fileName))
       {
         JsonSerializer serializer = new JsonSerializer();
-        serializer.Serialize(file, list);
+        serializer.Serialize(file, members);
       }
-    }
-
-    /// <summary>
-    /// Delete a member from file.
-    /// </summary>
-    /// <param name="memberId">ID of member to delete.</param>
-    public void Delete(string memberId)
-    {
-      List<Member> list = GetMembers();
-      list.Remove(list.SingleOrDefault(x => x.ID == memberId));
-
-      CreateFile(list, fileName);
     }
 
     /// <summary>
     /// Delete a boat from a member.
     /// </summary>
-    /// <param name="boatId">ID of the boat to delete.</param>
-    public void DeleteBoat(string boatId)
+    /// <param name="member">The member who owns the boat to delete.</param>
+    /// <param name="boat">The boat to delete.</param>
+    public void DeleteBoat(Member member, Boat boat)
     {
-      Member member = FindMemberWithBoatId(boatId);
-
-      member.Boats.Remove(member.Boats.SingleOrDefault(b => b.ID == boatId));
-
-      Delete(member.ID);
-      Save(member);
+      member.RemoveBoat(boat);
+      // TODO: Should use an UpdateMember method?
+      DeleteMember(member);
+      SaveMember(member);
     }
+
+
 
     /// <summary>
     /// Finds the member with the specified boat ID.
     /// </summary>
     /// <param name="boatId">The ID of the boat.</param>
     /// <returns>A member object that owns the boat.</returns>
-    public Member FindMemberWithBoatId(string boatId)
+    public Member FindMemberWithBoatId(int boatId)
     {
-      List<Member> members = GetMembers();
-
-      string memberWithBoatId = "";
+      int memberWithBoatId = 0;
       foreach (var member in members)
       {
         foreach (var boat in member.Boats)
         {
-          if (boat.ID == boatId)
+          if (boat.Id == boatId)
           {
-            memberWithBoatId = member.ID;
+            memberWithBoatId = member.Id;
           }
         }
       }
 
-      return members.SingleOrDefault(m => m.ID == memberWithBoatId);
+      return members.SingleOrDefault(m => m.Id == memberWithBoatId);
     }
 
     /// <summary>
@@ -128,39 +180,15 @@ namespace Model
     /// <param name="memberId">The member who owns the boat.</param>
     /// <param name="type">The type of the boat.</param>
     /// <param name="length">The length of the boat</param>
-    public void RegisterBoat(string memberId, string type, string length)
+    public void RegisterBoat(int memberId, string type, string length)
     {
-      List<Member> members = GetMembers();
-      Member member = members.SingleOrDefault(m => m.ID == memberId);
+      Member member = members.SingleOrDefault(m => m.Id == memberId);
 
       BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
       Boat boat = new Boat(boatType, double.Parse(length));
       member.Boats.Add(boat);
-      Delete(member.ID);
-      Save(member);
-    }
-
-    /// <summary>
-    /// Saves a member to file.
-    /// </summary>
-    /// <param name="name">Name of the member</param>
-    /// <param name="ssn">SSN of the member</param>
-    public void RegisterMember(string name, string ssn)
-    {
-      Member member = new Member(name, ssn);
-      Save(member);
-    }
-
-    /// <summary>
-    /// Reads the member file, adds the member to JSON and creates a new member file.
-    /// </summary>
-    /// <param name="member">Member to save</param>
-    public void Save(Member member)
-    {
-      List<Member> members = GetMembers();
-      members.Add(member);
-
-      CreateFile(members, fileName);
+      DeleteMember(member);
+      SaveMember(member);
     }
 
     /// <summary>
@@ -169,18 +197,17 @@ namespace Model
     /// <param name="boatId">The ID of the boat.</param>
     /// <param name="type">The type of the boat.</param>
     /// <param name="length">The length of the boat.</param>
-    public void UpdateBoat(string boatId, string type, string length)
+    public void UpdateBoat(int boatId, string type, string length)
     {
-      List<Member> members = GetMembers();
       Member member = FindMemberWithBoatId(boatId);
 
       BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
-      Boat boat = member.Boats.SingleOrDefault(b => b.ID == boatId);
-      boat.Length = int.Parse(length);
-      boat.Type = boatType;
+      Boat boat = member.Boats.SingleOrDefault(b => b.Id == boatId);
+      // boat.Length = int.Parse(length);
+      // boat.Type = boatType;
 
-      Delete(member.ID);
-      Save(member);
+      DeleteMember(member);
+      SaveMember(member);
     }
   }
 }
