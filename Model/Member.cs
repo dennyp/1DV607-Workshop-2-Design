@@ -32,6 +32,18 @@ namespace Model
     /// <value></value>
     public List<Boat> Boats { get; private set; }
 
+    /// <summary>
+    /// The number of boats belonging to a member.
+    /// </summary>
+    /// <value></value>
+    public int NumberOfBoats
+    {
+      get
+      {
+        return Boats.Count;
+      }
+    }
+
     [JsonConstructor]
     /// <summary>
     /// Creates a member. ID is created by using current time.
@@ -77,7 +89,7 @@ namespace Model
     {
       Boats.Add(boat);
     }
-    
+
     /// <summary>
     /// Removes a boat from the boat list.
     /// </summary>

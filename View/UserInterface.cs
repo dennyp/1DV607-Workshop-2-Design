@@ -14,6 +14,7 @@ namespace View
 
     public void PresentMenu()
     {
+      Console.WriteLine("-----------------------");
       Console.WriteLine("Please choose one below.");
       Console.WriteLine("1. Register Member");
       Console.WriteLine("2. Delete Member");
@@ -59,9 +60,10 @@ namespace View
 
     public void PresentMemberString(Member member)
     {
+      Console.WriteLine("-----------------------");
       Console.WriteLine($"Name: {member.Name}");
       Console.WriteLine($"Member id: {member.Id}");
-      // TODO Console.WriteLine($"Number of boats: {member.NumberOfBoats}");
+      Console.WriteLine($"Number of boats: {member.NumberOfBoats}");
       Console.WriteLine();
     }
 
