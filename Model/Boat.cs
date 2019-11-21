@@ -6,12 +6,6 @@ namespace Model
   public class Boat
   {
     /// <summary>
-    /// ID of boat.
-    /// </summary>
-    /// <value></value>
-    public int Id { get; private set; }
-
-    /// <summary>
     /// The length of the boat.
     /// </summary>
     public double Length { get; private set; }

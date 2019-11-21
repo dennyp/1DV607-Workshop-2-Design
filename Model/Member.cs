@@ -85,7 +85,7 @@ namespace Model
     /// Adds a boat to the boat list.
     /// </summary>
     /// <param name="boat">The boat object to add to the boat list.</param>
-    public void Addboat(Boat boat)
+    public void AddBoat(Boat boat)
     {
       Boats.Add(boat);
     }

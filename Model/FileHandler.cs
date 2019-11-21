@@ -89,17 +89,6 @@ namespace Model
     }
 
     /// <summary>
-    /// Removes a member from the member list and saves the list to file.
-    /// </summary>
-    /// <param name="id">Id of the member to remove.</param>
-    public void RemoveMemberFromFile(int id)
-    {
-      Member member = members.SingleOrDefault(m => m.Id == id);
-      DeleteMember(member);
-      CreateFileWithMembers();
-    }
-
-    /// <summary>
     /// Serializes list of members to JSON and saves to file.
     /// </summary>
     private void CreateFileWithMembers()
@@ -109,6 +98,17 @@ namespace Model
         JsonSerializer serializer = new JsonSerializer();
         serializer.Serialize(file, members);
       }
+    }
+
+    /// <summary>
+    /// Removes a member from the member list and saves the list to file.
+    /// </summary>
+    /// <param name="id">Id of the member to remove.</param>
+    public void RemoveMemberFromFile(int id)
+    {
+      Member member = members.SingleOrDefault(m => m.Id == id);
+      DeleteMember(member);
+      CreateFileWithMembers();
     }
 
     /// <summary>
@@ -131,22 +131,22 @@ namespace Model
     /// </summary>
     /// <param name="boatId">The ID of the boat.</param>
     /// <returns>A member object that owns the boat.</returns>
-    public Member FindMemberWithBoatId(int boatId)
-    {
-      int memberWithBoatId = 0;
-      foreach (var member in members)
-      {
-        foreach (var boat in member.Boats)
-        {
-          if (boat.Id == boatId)
-          {
-            memberWithBoatId = member.Id;
-          }
-        }
-      }
+    // public Member FindMemberWithBoatId(int boatId)
+    // {
+    //   int memberWithBoatId = 0;
+    //   foreach (var member in members)
+    //   {
+    //     foreach (var boat in member.Boats)
+    //     {
+    //       if (boat.Id == boatId)
+    //       {
+    //         memberWithBoatId = member.Id;
+    //       }
+    //     }
+    //   }
 
-      return members.SingleOrDefault(m => m.Id == memberWithBoatId);
-    }
+    //   return members.SingleOrDefault(m => m.Id == memberWithBoatId);
+    // }
 
     /// <summary>
     /// Reads members from file.
@@ -178,17 +178,14 @@ namespace Model
     /// Registers a boat to a member.
     /// </summary>
     /// <param name="memberId">The member who owns the boat.</param>
-    /// <param name="type">The type of the boat.</param>
-    /// <param name="length">The length of the boat</param>
-    public void RegisterBoat(int memberId, string type, string length)
+    /// <param name="boat">The boat to add to a member with the memberId.</param>
+    public void RegisterBoat(int memberId, Boat boat)
     {
       Member member = members.SingleOrDefault(m => m.Id == memberId);
-
-      BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
-      Boat boat = new Boat(boatType, double.Parse(length));
-      member.Boats.Add(boat);
+      member.AddBoat(boat);
       DeleteMember(member);
       SaveMember(member);
+      CreateFileWithMembers();
     }
 
     /// <summary>
@@ -197,17 +194,17 @@ namespace Model
     /// <param name="boatId">The ID of the boat.</param>
     /// <param name="type">The type of the boat.</param>
     /// <param name="length">The length of the boat.</param>
-    public void UpdateBoat(int boatId, string type, string length)
-    {
-      Member member = FindMemberWithBoatId(boatId);
+    // public void UpdateBoat(int boatId, string type, string length)
+    // {
+    //   Member member = FindMemberWithBoatId(boatId);
 
-      BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
-      Boat boat = member.Boats.SingleOrDefault(b => b.Id == boatId);
-      // boat.Length = int.Parse(length);
-      // boat.Type = boatType;
+    //   BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
+    //   Boat boat = member.Boats.SingleOrDefault(b => b.Id == boatId);
+    //   // boat.Length = int.Parse(length);
+    //   // boat.Type = boatType;
 
-      DeleteMember(member);
-      SaveMember(member);
-    }
+    //   DeleteMember(member);
+    //   SaveMember(member);
+    // }
   }
 }
