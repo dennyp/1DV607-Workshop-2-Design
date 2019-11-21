@@ -48,29 +48,29 @@ namespace Controller
     /// <summary>
     /// Changes the information of a member.
     /// </summary>
-    public void ChangeMemberInfo()
-    {
-      try
-      {
-        view.PresentMemberInfoUI();
+    // public void ChangeMemberInfo()
+    // {
+    //   try
+    //   {
+    //     view.PresentMemberInfoUI();
 
-        view.PresentMemberPersonalIdUI();
-        string memberId = view.CollectData();
+    //     view.PresentMemberPersonalIdUI();
+    //     string memberId = view.CollectData();
 
-        view.PresentMemberNameUI();
-        string name = view.CollectData();
+    //     view.PresentMemberNameUI();
+    //     string name = view.CollectData();
 
-        view.PresentMemberPersonalIdUI();
-        string ssn = view.CollectData();
+    //     view.PresentMemberPersonalIdUI();
+    //     string ssn = view.CollectData();
 
-        Member member = new Member(name, ssn, int.Parse(memberId));
-        fileHandler.ChangeMemberInformation(member);
-      }
-      catch (Exception ex)
-      {
-        view.PresentErrorMessage(ex.Message);
-      }
-    }
+    //     Member member = new Member(name, ssn, int.Parse(memberId));
+    //     fileHandler.ChangeMemberInformation(member);
+    //   }
+    //   catch (Exception ex)
+    //   {
+    //     view.PresentErrorMessage(ex.Message);
+    //   }
+    // }
 
     /// <summary>
     /// Delete a boat.
@@ -97,10 +97,9 @@ namespace Controller
     {
       try
       {
-        view.PresentMemberUI();
-        string memberId = view.CollectData();
+        int memberId = view.DeleteMemberUI();
 
-        fileHandler.RemoveMemberFromFile(int.Parse(memberId));
+        fileHandler.RemoveMemberFromFile(memberId);
       }
       catch (Exception ex)
       {
@@ -112,31 +111,31 @@ namespace Controller
     /// <summary>
     /// Registers a boat to a member.
     /// </summary>
-    public void RegisterBoat()
-    {
-      try
-      {
-        view.PresentBoatCreationUI();
+    // public void RegisterBoat()
+    // {
+    //   try
+    //   {
+    //     view.PresentBoatCreationUI();
 
-        view.PresentMemberUI();
-        string memberId = view.CollectData();
+    //     view.PresentMemberUI();
+    //     string memberId = view.CollectData();
 
-        view.PresentBoatTypeUI();
-        string type = view.CollectData().ToLower();
+    //     view.PresentBoatTypeUI();
+    //     string type = view.CollectData().ToLower();
 
-        view.PresentBoatLengthUI();
-        string length = view.CollectData();
+    //     view.PresentBoatLengthUI();
+    //     string length = view.CollectData();
 
-        BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
-        Boat boat = new Boat(boatType, double.Parse(length));
+    //     BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
+    //     Boat boat = new Boat(boatType, double.Parse(length));
 
-        fileHandler.RegisterBoat(int.Parse(memberId), boat);
-      }
-      catch (Exception ex)
-      {
-        view.PresentErrorMessage(ex.Message);
-      }
-    }
+    //     fileHandler.RegisterBoat(int.Parse(memberId), boat);
+    //   }
+    //   catch (Exception ex)
+    //   {
+    //     view.PresentErrorMessage(ex.Message);
+    //   }
+    // }
 
     /// <summary>
     /// Register a member.
@@ -145,15 +144,8 @@ namespace Controller
     {
       try
       {
-        view.PresentMemberCreationUI();
+        Member member = view.RegisterMemberUI();
 
-        view.PresentMemberNameUI();
-        string name = view.CollectData();
-
-        view.PresentMemberPersonalIdUI();
-        string ssn = view.CollectData();
-
-        Member member = new Member(name, ssn);
         fileHandler.SaveMemberToFile(member);
       }
       catch (Exception ex)
@@ -171,20 +163,7 @@ namespace Controller
       {
         List<Member> members = fileHandler.GetMembers();
 
-        view.PresentMemberListUI();
-        string format = view.CollectData();
-
-        foreach (var member in members)
-        {
-          if (format == view.GetCompactListChar())
-          {
-            view.PresentMemberString(member);
-          }
-          else if (format == view.GetVerboseListChar())
-          {
-            view.PresentVerboseMemberString(member);
-          }
-        }
+        view.ShowMemberListUI(members);
       }
       catch (Exception ex)
       {
@@ -201,11 +180,7 @@ namespace Controller
       {
         List<Member> members = fileHandler.GetMembers();
 
-        view.PresentMemberInformation();
-        string memberId = view.CollectData();
-
-        Member member = members.SingleOrDefault(m => m.Id == int.Parse(memberId));
-        view.PresentVerboseMemberString(member);
+        view.ShowMemberUI(members);
       }
       catch (Exception ex)
       {

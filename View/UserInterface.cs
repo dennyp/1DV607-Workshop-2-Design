@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Model;
 
 namespace View
@@ -28,19 +30,7 @@ namespace View
       Console.Write("Enter choice: ");
     }
 
-    public void PresentMemberCreationUI() => Console.WriteLine("Please create a new member below.");
-
-    public void PresentMemberNameUI() => Console.Write("Name: ");
-
-    public void PresentMemberPersonalIdUI() => Console.Write("Personal id: ");
-
     public string CollectData() => Console.ReadLine();
-
-    public void PresentMemberUI()
-    {
-      Console.WriteLine("Please enter id of member.");
-      Console.Write("Member ID: ");
-    }
 
     public void PresentBoatUI()
     {
@@ -56,7 +46,55 @@ namespace View
 
     public void PresentMemberInfoUI() => Console.WriteLine("Change the following member.");
 
-    public void PresentMemberListUI() => Console.Write($"Type {compactListChar} for a compact list or {verboseListChar} for a verbose list of the members: ");
+    public int DeleteMemberUI()
+    {
+      Console.WriteLine("Please enter id of member to delete.");
+
+      Console.Write("Member ID: ");
+      string memberId = Console.ReadLine();
+
+      return int.Parse(memberId);
+    }
+
+    public Member RegisterMemberUI()
+    {
+      Console.WriteLine("Please create a new member below.");
+
+      Console.Write("Name: ");
+      string name = Console.ReadLine();
+
+      Console.Write("Personal id: ");
+      string ssn = Console.ReadLine();
+
+      return new Member(name, ssn);
+    }
+
+    public void ShowMemberListUI(List<Member> members)
+    {
+      Console.Write($"Type {compactListChar} for a compact list or {verboseListChar} for a verbose list of the members: ");
+      string format = Console.ReadLine();
+
+      foreach (var member in members)
+      {
+        if (format == GetCompactListChar())
+        {
+          PresentMemberString(member);
+        }
+        else if (format == GetVerboseListChar())
+        {
+          PresentVerboseMemberString(member);
+        }
+      }
+    }
+
+    public void ShowMemberUI(List<Member> members)
+    {
+      Console.Write("Enter member ID: ");
+      string memberId = Console.ReadLine();
+      Member member = members.SingleOrDefault(m => m.Id == int.Parse(memberId));
+
+      PresentVerboseMemberString(member);
+    }
 
     public void PresentMemberString(Member member)
     {
@@ -64,7 +102,6 @@ namespace View
       Console.WriteLine($"Name: {member.Name}");
       Console.WriteLine($"Member id: {member.Id}");
       Console.WriteLine($"Number of boats: {member.NumberOfBoats}");
-      Console.WriteLine();
     }
 
     public void PresentVerboseMemberString(Member member)
@@ -77,7 +114,5 @@ namespace View
     }
 
     public void PresentErrorMessage(string message) => Console.WriteLine(message);
-
-    public void PresentMemberInformation() => Console.Write("Enter member ID: ");
   }
 }

@@ -30,10 +30,10 @@ namespace Workshop_2___Design
             secretary.SpecificMemberInfo();
             break;
           case "5":
-            secretary.ChangeMemberInfo();
+            // secretary.ChangeMemberInfo();
             break;
           case "6":
-            secretary.RegisterBoat();
+            // secretary.RegisterBoat();
             break;
           case "7":
             // secretary.DeleteBoat();
