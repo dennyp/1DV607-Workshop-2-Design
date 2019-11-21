@@ -167,9 +167,8 @@ namespace Model
     /// </summary>
     /// <param name="memberId">The member who owns the boat.</param>
     /// <param name="boat">The boat to add to a member with the memberId.</param>
-    public void RegisterBoat(int memberId, Boat boat)
+    public void RegisterBoat(Member member, Boat boat)
     {
-      Member member = GetMember(memberId);
       member.AddBoat(boat);
       DeleteMember(member);
       SaveMember(member);

@@ -165,10 +165,10 @@ namespace Controller
     {
       try
       {
-        int memberId = view.GetMemberIdUI();
+        Member member = view.GetMemberUI(fileHandler);
         Boat boat = view.RegisterBoatUI();
 
-        fileHandler.RegisterBoat(memberId, boat);
+        fileHandler.RegisterBoat(member, boat);
       }
       catch (Exception ex)
       {
