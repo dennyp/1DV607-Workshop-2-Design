@@ -21,31 +21,6 @@ namespace Controller
     }
 
     /// <summary>
-    /// Change the information of a boat.
-    /// </summary>
-    // public void ChangeBoatInfo()
-    // {
-    //   try
-    //   {
-    //     // TODO : Refactor - duplicate code.
-    //     view.PresentBoatUI();
-    //     string boatId = view.CollectData();
-
-    //     view.PresentBoatTypeUI();
-    //     string type = view.CollectData().ToLower();
-
-    //     view.PresentBoatLengthUI();
-    //     string length = view.CollectData();
-
-    //     fileHandler.UpdateBoat(int.Parse(boatId), type, length);
-    //   }
-    //   catch (Exception ex)
-    //   {
-    //     view.PresentErrorMessage(ex.Message);
-    //   }
-    // }
-
-    /// <summary>
     /// Changes the information of a member.
     /// </summary>
     public void ChangeMemberInfo()
@@ -53,7 +28,7 @@ namespace Controller
       try
       {
         Member member = view.UpdateMemberUI();
-        
+
         fileHandler.ChangeMemberInformation(member);
       }
       catch (Exception ex)
@@ -61,24 +36,6 @@ namespace Controller
         view.PresentErrorMessage(ex.Message);
       }
     }
-
-    /// <summary>
-    /// Delete a boat.
-    /// </summary>
-    // public void DeleteBoat()
-    // {
-    //   try
-    //   {
-    //     view.PresentBoatUI();
-    //     string boatId = view.CollectData();
-
-    //     fileHandler.DeleteBoat(int.Parse(boatId));
-    //   }
-    //   catch (Exception ex)
-    //   {
-    //     view.PresentErrorMessage(ex.Message);
-    //   }
-    // }
 
     /// <summary>
     /// Deletes a member from the member file.
@@ -97,35 +54,6 @@ namespace Controller
       }
 
     }
-
-    /// <summary>
-    /// Registers a boat to a member.
-    /// </summary>
-    // public void RegisterBoat()
-    // {
-    //   try
-    //   {
-    //     view.PresentBoatCreationUI();
-
-    //     view.PresentMemberUI();
-    //     string memberId = view.CollectData();
-
-    //     view.PresentBoatTypeUI();
-    //     string type = view.CollectData().ToLower();
-
-    //     view.PresentBoatLengthUI();
-    //     string length = view.CollectData();
-
-    //     BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
-    //     Boat boat = new Boat(boatType, double.Parse(length));
-
-    //     fileHandler.RegisterBoat(int.Parse(memberId), boat);
-    //   }
-    //   catch (Exception ex)
-    //   {
-    //     view.PresentErrorMessage(ex.Message);
-    //   }
-    // }
 
     /// <summary>
     /// Register a member.
@@ -171,6 +99,67 @@ namespace Controller
         List<Member> members = fileHandler.GetMembers();
 
         view.ShowMemberUI(members);
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+    }
+
+    /// <summary>
+    /// Change the information of a boat.
+    /// </summary>
+    // public void ChangeBoatInfo()
+    // {
+    //   try
+    //   {
+    //     // TODO : Refactor - duplicate code.
+    //     view.PresentBoatUI();
+    //     string boatId = view.CollectData();
+
+    //     view.PresentBoatTypeUI();
+    //     string type = view.CollectData().ToLower();
+
+    //     view.PresentBoatLengthUI();
+    //     string length = view.CollectData();
+
+    //     fileHandler.UpdateBoat(int.Parse(boatId), type, length);
+    //   }
+    //   catch (Exception ex)
+    //   {
+    //     view.PresentErrorMessage(ex.Message);
+    //   }
+    // }
+
+    /// <summary>
+    /// Delete a boat.
+    /// </summary>
+    // public void DeleteBoat()
+    // {
+    //   try
+    //   {
+    //     view.PresentBoatUI();
+    //     string boatId = view.CollectData();
+
+    //     fileHandler.DeleteBoat(int.Parse(boatId));
+    //   }
+    //   catch (Exception ex)
+    //   {
+    //     view.PresentErrorMessage(ex.Message);
+    //   }
+    // }
+
+    /// <summary>
+    /// Registers a boat to a member.
+    /// </summary>
+    public void RegisterBoat()
+    {
+      try
+      {
+        int memberId = view.GetMemberIdUI();
+        Boat boat = view.RegisterBoatUI();
+
+        fileHandler.RegisterBoat(memberId, boat);
       }
       catch (Exception ex)
       {

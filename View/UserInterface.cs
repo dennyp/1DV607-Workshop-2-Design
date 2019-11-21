@@ -10,9 +10,9 @@ namespace View
     private const string compactListChar = "c";
     private const string verboseListChar = "v";
 
-    public string GetCompactListChar() => compactListChar;
+    private string GetCompactListChar() => compactListChar;
 
-    public string GetVerboseListChar() => verboseListChar;
+    private string GetVerboseListChar() => verboseListChar;
 
     public void PresentMenu()
     {
@@ -32,24 +32,11 @@ namespace View
 
     public string CollectData() => Console.ReadLine();
 
-    public void PresentBoatUI()
-    {
-      Console.WriteLine("Please enter ID of the boat.");
-      Console.Write("Boat ID: ");
-    }
-
-    public void PresentBoatCreationUI() => Console.WriteLine("Create a new boat for a member. (Sailboat, Motorsailer, Kayakcanoe, Other)");
-
-    public void PresentBoatTypeUI() => Console.Write("Type: ");
-
-    public void PresentBoatLengthUI() => Console.Write("Length: ");
-
     public Member UpdateMemberUI()
     {
       Console.WriteLine("Change the following member.");
 
-      Console.Write("Enter member ID: ");
-      string memberId = Console.ReadLine();
+      int memberId = GetMemberIdUI();
 
       Console.Write("Modify name: ");
       string name = Console.ReadLine();
@@ -57,16 +44,20 @@ namespace View
       Console.Write("Modify SSN: ");
       string ssn = Console.ReadLine();
 
-      return new Member(name, ssn, int.Parse(memberId));
+      return new Member(name, ssn, memberId);
     }
 
     public int DeleteMemberUI()
     {
       Console.WriteLine("Please enter id of member to delete.");
+      int memberId = GetMemberIdUI();
+      return memberId;
+    }
 
-      Console.Write("Member ID: ");
+    public int GetMemberIdUI()
+    {
+      Console.Write("Enter member ID: ");
       string memberId = Console.ReadLine();
-
       return int.Parse(memberId);
     }
 
@@ -103,14 +94,13 @@ namespace View
 
     public void ShowMemberUI(List<Member> members)
     {
-      Console.Write("Enter member ID: ");
-      string memberId = Console.ReadLine();
-      Member member = members.SingleOrDefault(m => m.Id == int.Parse(memberId));
+      int memberId = GetMemberIdUI();
+      Member member = members.SingleOrDefault(m => m.Id == memberId);
 
       PresentVerboseMemberString(member);
     }
 
-    public void PresentMemberString(Member member)
+    private void PresentMemberString(Member member)
     {
       Console.WriteLine("-----------------------");
       Console.WriteLine($"Name: {member.Name}");
@@ -118,7 +108,7 @@ namespace View
       Console.WriteLine($"Number of boats: {member.NumberOfBoats}");
     }
 
-    public void PresentVerboseMemberString(Member member)
+    private void PresentVerboseMemberString(Member member)
     {
       Console.WriteLine("-----------------------");
       Console.WriteLine($"Name: {member.Name}");
@@ -127,6 +117,28 @@ namespace View
       // TODO Boats with boat information
     }
 
-    public void PresentErrorMessage(string message) => Console.WriteLine(message);
+    public void PresentErrorMessage(string message)
+    {
+      Console.WriteLine();
+      Console.WriteLine("-----------------------");
+      Console.WriteLine(message);
+      Console.WriteLine("-----------------------");
+      Console.WriteLine();
+    }
+
+    public Boat RegisterBoatUI()
+    {
+      Console.WriteLine("Create a new boat for a member.");
+
+      Console.Write("Boat type (Sailboat, Motorsailer, Kayakcanoe, Other): ");
+      string type = Console.ReadLine().ToLower();
+
+      Console.Write("Length: ");
+      string length = Console.ReadLine();
+
+      BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
+      return new Boat(boatType, double.Parse(length));
+    }
+
   }
 }

@@ -162,6 +162,12 @@ namespace Model
     public void RegisterBoat(int memberId, Boat boat)
     {
       Member member = members.SingleOrDefault(m => m.Id == memberId);
+
+      if (member == null)
+      {
+        throw new MemberNotFoundException("No member was found with the specified ID.");
+      }
+
       member.AddBoat(boat);
       DeleteMember(member);
       SaveMember(member);
