@@ -2,7 +2,6 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace Model
 {
@@ -53,6 +52,12 @@ namespace Model
     public void ChangeMemberInformation(Member memberWithNewInfo)
     {
       Member memberWithOldInfo = members.SingleOrDefault(m => m.Id == memberWithNewInfo.Id);
+
+      if (memberWithOldInfo == null)
+      {
+        throw new MemberNotFoundException("No member was found with the specified ID.");
+      }
+
       DeleteMember(memberWithOldInfo);
       SaveMember(memberWithNewInfo);
       CreateFileWithMembers();
@@ -119,34 +124,9 @@ namespace Model
     public void DeleteBoat(Member member, Boat boat)
     {
       member.RemoveBoat(boat);
-      // TODO: Should use an UpdateMember method?
       DeleteMember(member);
       SaveMember(member);
     }
-
-
-
-    /// <summary>
-    /// Finds the member with the specified boat ID.
-    /// </summary>
-    /// <param name="boatId">The ID of the boat.</param>
-    /// <returns>A member object that owns the boat.</returns>
-    // public Member FindMemberWithBoatId(int boatId)
-    // {
-    //   int memberWithBoatId = 0;
-    //   foreach (var member in members)
-    //   {
-    //     foreach (var boat in member.Boats)
-    //     {
-    //       if (boat.Id == boatId)
-    //       {
-    //         memberWithBoatId = member.Id;
-    //       }
-    //     }
-    //   }
-
-    //   return members.SingleOrDefault(m => m.Id == memberWithBoatId);
-    // }
 
     /// <summary>
     /// Reads members from file.

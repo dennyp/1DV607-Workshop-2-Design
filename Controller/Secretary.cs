@@ -48,29 +48,19 @@ namespace Controller
     /// <summary>
     /// Changes the information of a member.
     /// </summary>
-    // public void ChangeMemberInfo()
-    // {
-    //   try
-    //   {
-    //     view.PresentMemberInfoUI();
-
-    //     view.PresentMemberPersonalIdUI();
-    //     string memberId = view.CollectData();
-
-    //     view.PresentMemberNameUI();
-    //     string name = view.CollectData();
-
-    //     view.PresentMemberPersonalIdUI();
-    //     string ssn = view.CollectData();
-
-    //     Member member = new Member(name, ssn, int.Parse(memberId));
-    //     fileHandler.ChangeMemberInformation(member);
-    //   }
-    //   catch (Exception ex)
-    //   {
-    //     view.PresentErrorMessage(ex.Message);
-    //   }
-    // }
+    public void ChangeMemberInfo()
+    {
+      try
+      {
+        Member member = view.UpdateMemberUI();
+        
+        fileHandler.ChangeMemberInformation(member);
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+    }
 
     /// <summary>
     /// Delete a boat.

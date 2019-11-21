@@ -44,7 +44,21 @@ namespace View
 
     public void PresentBoatLengthUI() => Console.Write("Length: ");
 
-    public void PresentMemberInfoUI() => Console.WriteLine("Change the following member.");
+    public Member UpdateMemberUI()
+    {
+      Console.WriteLine("Change the following member.");
+
+      Console.Write("Enter member ID: ");
+      string memberId = Console.ReadLine();
+
+      Console.Write("Modify name: ");
+      string name = Console.ReadLine();
+
+      Console.Write("Modify SSN: ");
+      string ssn = Console.ReadLine();
+
+      return new Member(name, ssn, int.Parse(memberId));
+    }
 
     public int DeleteMemberUI()
     {
