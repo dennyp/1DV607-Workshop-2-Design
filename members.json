@@ -1,23 +1,44 @@
 [
+  { "Id": 1, "Name": "Test", "SSN": "123455", "Boats": [], "NumberOfBoats": 0 },
   {
-    "ID": "1002410321",
+    "Id": 3,
+    "Name": "Test Testsson",
+    "SSN": "999999",
+    "Boats": [],
+    "NumberOfBoats": 0
+  },
+  { "Id": 5, "Name": "Hej", "SSN": "123", "Boats": [], "NumberOfBoats": 0 },
+  {
+    "Id": 11,
+    "Name": "Hoppla",
+    "SSN": "456354",
+    "Boats": [],
+    "NumberOfBoats": 0
+  },
+  { "Id": 2, "Name": "qwerty", "SSN": "123", "Boats": [], "NumberOfBoats": 0 },
+  {
+    "Id": 10,
     "Name": "Test",
-    "SSN": "123456",
-    "Boats": [{ "ID": "1002414254", "Length": 1111.0, "Type": 0 }]
-  },
-  {
-    "ID": "1002410329",
-    "Name": "Test2",
-    "SSN": "1234567",
+    "SSN": "6757",
     "Boats": [
-      { "ID": "1002414253", "Length": 678.0, "Type": 3 },
-      { "ID": "0210511010", "Length": 888.0, "Type": 3 }
-    ]
+      { "Length": 883.0, "Type": 3 },
+      { "Length": 234234.0, "Type": 1 }
+    ],
+    "NumberOfBoats": 2
   },
   {
-    "ID": "1002403973",
-    "Name": "Denny P",
-    "SSN": "987654",
-    "Boats": [{ "ID": "0211215410", "Length": 111.0, "Type": 0 }]
+    "Id": 12,
+    "Name": "Sven",
+    "SSN": "333334",
+    "Boats": [],
+    "NumberOfBoats": 0
+  },
+  { "Id": 6, "Name": "Stig", "SSN": "887", "Boats": [], "NumberOfBoats": 0 },
+  {
+    "Id": 7,
+    "Name": "Kurt",
+    "SSN": "555",
+    "Boats": [{ "Length": 777.0, "Type": 2 }],
+    "NumberOfBoats": 1
   }
 ]
