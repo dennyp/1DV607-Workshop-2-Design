@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Model;
 using View;
 
@@ -11,9 +10,55 @@ namespace Controller
   /// </summary>
   public class Secretary
   {
-    private FileHandler fileHandler;
+    private FileHandler fileHandler = new FileHandler();
     private MemberView memberView = new MemberView();
     private BoatView boatView = new BoatView();
+
+
+    public bool Run()
+    {
+      try
+      {
+        memberView.PresentMenu();
+        MenuChoice choice = memberView.SelectChoice();
+
+        switch (choice)
+        {
+          case MenuChoice.RegisterMember:
+            RegisterMember();
+            return true;
+          case MenuChoice.DeleteMember:
+            DeleteMember();
+            return true;
+          case MenuChoice.ShowMemberList:
+            ShowMemberList();
+            return true;
+          case MenuChoice.SpecificMemberInfo:
+            SpecificMemberInfo();
+            return true;
+          case MenuChoice.ChangeMemberInfo:
+            ChangeMemberInfo();
+            return true;
+          case MenuChoice.RegisterBoat:
+            RegisterBoat();
+            return true;
+          case MenuChoice.DeleteBoat:
+            DeleteBoat();
+            return true;
+          case MenuChoice.ChangeBoatInfo:
+            ChangeBoatInfo();
+            return true;
+          case MenuChoice.Quit:
+          default:
+            return false;
+        }
+      }
+      catch (Exception ex)
+      {
+        memberView.PresentErrorMessage(ex.Message);
+        return true;
+      }
+    }
 
     /// <summary>
     /// Changes the information of a member.

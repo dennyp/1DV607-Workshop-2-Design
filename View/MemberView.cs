@@ -27,11 +27,15 @@ namespace View
       Console.WriteLine("6. Register boat");
       Console.WriteLine("7. Delete boat");
       Console.WriteLine("8. Change boat information");
-      Console.WriteLine("Q to quit");
+      Console.WriteLine("9. Quit");
       Console.Write("Enter choice: ");
     }
 
-    public string CollectData() => Console.ReadLine();
+    public MenuChoice SelectChoice()
+    {
+      string choice = Console.ReadLine();
+      return (MenuChoice)Enum.Parse(typeof(MenuChoice), choice);
+    }
 
     public Member UpdateMemberUI()
     {
@@ -64,6 +68,7 @@ namespace View
 
     public Member RegisterMemberUI()
     {
+      Console.WriteLine("-----------------------");
       Console.WriteLine("Please create a new member below.");
 
       Console.Write("Name: ");
