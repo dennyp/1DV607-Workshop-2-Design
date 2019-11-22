@@ -44,7 +44,7 @@ namespace Controller
     {
       try
       {
-        Member member = view.GetMemberUI(fileHandler);
+        Member member = view.SelectMemberUI(fileHandler);
 
         fileHandler.RemoveMemberFromFile(member);
       }
@@ -109,27 +109,29 @@ namespace Controller
     /// <summary>
     /// Change the information of a boat.
     /// </summary>
-    // public void ChangeBoatInfo()
-    // {
-    //   try
-    //   {
-    //     // TODO : Refactor - duplicate code.
-    //     view.PresentBoatUI();
-    //     string boatId = view.CollectData();
+    public void ChangeBoatInfo()
+    {
+      try
+      {
+        Member member = view.SelectMemberUI(fileHandler);
+        Boat boat = view.SelectBoatUI(member.Boats);
 
-    //     view.PresentBoatTypeUI();
-    //     string type = view.CollectData().ToLower();
+        if (boat != null)
+        {
+          Boat updatedBoat = view.EnterBoatUI();
 
-    //     view.PresentBoatLengthUI();
-    //     string length = view.CollectData();
-
-    //     fileHandler.UpdateBoat(int.Parse(boatId), type, length);
-    //   }
-    //   catch (Exception ex)
-    //   {
-    //     view.PresentErrorMessage(ex.Message);
-    //   }
-    // }
+          fileHandler.UpdateBoat(member, boat, updatedBoat);
+        }
+        else
+        {
+          view.PresentErrorMessage("No boats registered to this member.");
+        }
+      }
+      catch (Exception ex)
+      {
+        view.PresentErrorMessage(ex.Message);
+      }
+    }
 
     /// <summary>
     /// Delete a boat.
@@ -138,10 +140,10 @@ namespace Controller
     {
       try
       {
-        Member member = view.GetMemberUI(fileHandler);
+        Member member = view.SelectMemberUI(fileHandler);
         List<Boat> boats = member.Boats;
 
-        Boat boat = view.DeleteBoatUI(boats);
+        Boat boat = view.SelectBoatUI(boats);
 
         if (boat != null && member != null)
         {
@@ -149,7 +151,7 @@ namespace Controller
         }
         else if (boat == null)
         {
-          view.PresentErrorMessage("Member has no boat.");
+          view.PresentErrorMessage("No boats registered to this member.");
         }
       }
       catch (Exception ex)
@@ -165,8 +167,8 @@ namespace Controller
     {
       try
       {
-        Member member = view.GetMemberUI(fileHandler);
-        Boat boat = view.RegisterBoatUI();
+        Member member = view.SelectMemberUI(fileHandler);
+        Boat boat = view.EnterBoatUI();
 
         fileHandler.RegisterBoat(member, boat);
       }

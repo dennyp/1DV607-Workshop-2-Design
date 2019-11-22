@@ -108,5 +108,10 @@ namespace Model
     {
       Boats = boats;
     }
+
+    public void UpdateBoat(Boat oldBoat, Boat newBoat)
+    {
+      oldBoat.SetFields(newBoat);
+    }
   }
 }

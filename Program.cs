@@ -39,7 +39,7 @@ namespace Workshop_2___Design
             secretary.DeleteBoat();
             break;
           case "8":
-            // secretary.ChangeBoatInfo();
+            secretary.ChangeBoatInfo();
             break;
           case "q":
             isRunning = false;

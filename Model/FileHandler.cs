@@ -118,8 +118,7 @@ namespace Model
     public void DeleteBoat(Member member, Boat boat)
     {
       member.RemoveBoat(boat);
-      DeleteMember(member);
-      SaveMember(member);
+      UpdateMember(member);
       CreateFileWithMembers();
     }
 
@@ -164,33 +163,31 @@ namespace Model
     /// <summary>
     /// Registers a boat to a member.
     /// </summary>
-    /// <param name="memberId">The member who owns the boat.</param>
+    /// <param name="member">The member who owns the boat.</param>
     /// <param name="boat">The boat to add to a member with the memberId.</param>
     public void RegisterBoat(Member member, Boat boat)
     {
       member.AddBoat(boat);
+      UpdateMember(member);
+      CreateFileWithMembers();
+    }
+
+    private void UpdateMember(Member member)
+    {
       DeleteMember(member);
       SaveMember(member);
-      CreateFileWithMembers();
     }
 
     /// <summary>
     /// Updates info of a boat.
     /// </summary>
-    /// <param name="boatId">The ID of the boat.</param>
-    /// <param name="type">The type of the boat.</param>
-    /// <param name="length">The length of the boat.</param>
-    // public void UpdateBoat(int boatId, string type, string length)
-    // {
-    //   Member member = FindMemberWithBoatId(boatId);
-
-    //   BoatType boatType = (BoatType)Enum.Parse(typeof(BoatType), type);
-    //   Boat boat = member.Boats.SingleOrDefault(b => b.Id == boatId);
-    //   // boat.Length = int.Parse(length);
-    //   // boat.Type = boatType;
-
-    //   DeleteMember(member);
-    //   SaveMember(member);
-    // }
+    /// <param name="member">The member who owns the boat.</param>
+    /// <param name="boat">The boat to update.</param>
+    public void UpdateBoat(Member member, Boat boat, Boat updatedBoat)
+    {
+      member.UpdateBoat(boat, updatedBoat);
+      UpdateMember(member);
+      CreateFileWithMembers();
+    }
   }
 }
