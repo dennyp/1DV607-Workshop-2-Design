@@ -12,13 +12,8 @@ namespace Controller
   public class Secretary
   {
     private FileHandler fileHandler;
-    private UserInterface view;
-
-    public Secretary()
-    {
-      fileHandler = new FileHandler();
-      view = new UserInterface();
-    }
+    private MemberView memberView = new MemberView();
+    private BoatView boatView = new BoatView();
 
     /// <summary>
     /// Changes the information of a member.
@@ -27,13 +22,13 @@ namespace Controller
     {
       try
       {
-        Member member = view.UpdateMemberUI();
+        Member member = memberView.UpdateMemberUI();
 
         fileHandler.ChangeMemberInformation(member);
       }
       catch (Exception ex)
       {
-        view.PresentErrorMessage(ex.Message);
+        memberView.PresentErrorMessage(ex.Message);
       }
     }
 
@@ -44,13 +39,13 @@ namespace Controller
     {
       try
       {
-        Member member = view.SelectMemberUI(fileHandler);
+        Member member = memberView.SelectMemberUI(fileHandler);
 
         fileHandler.RemoveMemberFromFile(member);
       }
       catch (Exception ex)
       {
-        view.PresentErrorMessage(ex.Message);
+        memberView.PresentErrorMessage(ex.Message);
       }
 
     }
@@ -62,13 +57,13 @@ namespace Controller
     {
       try
       {
-        Member member = view.RegisterMemberUI();
+        Member member = memberView.RegisterMemberUI();
 
         fileHandler.SaveMemberToFile(member);
       }
       catch (Exception ex)
       {
-        view.PresentErrorMessage(ex.Message);
+        memberView.PresentErrorMessage(ex.Message);
       }
     }
 
@@ -81,11 +76,11 @@ namespace Controller
       {
         List<Member> members = fileHandler.GetMembers();
 
-        view.ShowMemberListUI(members);
+        memberView.ShowMemberListUI(members);
       }
       catch (Exception ex)
       {
-        view.PresentErrorMessage(ex.Message);
+        memberView.PresentErrorMessage(ex.Message);
       }
     }
 
@@ -98,11 +93,11 @@ namespace Controller
       {
         List<Member> members = fileHandler.GetMembers();
 
-        view.ShowMemberUI(members);
+        memberView.ShowMemberUI(members);
       }
       catch (Exception ex)
       {
-        view.PresentErrorMessage(ex.Message);
+        memberView.PresentErrorMessage(ex.Message);
       }
     }
 
@@ -113,23 +108,23 @@ namespace Controller
     {
       try
       {
-        Member member = view.SelectMemberUI(fileHandler);
-        Boat boat = view.SelectBoatUI(member.Boats);
+        Member member = memberView.SelectMemberUI(fileHandler);
+        Boat boat = boatView.SelectBoatUI(member.Boats);
 
         if (boat != null)
         {
-          Boat updatedBoat = view.EnterBoatUI();
+          Boat updatedBoat = boatView.EnterBoatUI();
 
           fileHandler.UpdateBoat(member, boat, updatedBoat);
         }
         else
         {
-          view.PresentErrorMessage("No boats registered to this member.");
+          memberView.PresentErrorMessage("No boats registered to this member.");
         }
       }
       catch (Exception ex)
       {
-        view.PresentErrorMessage(ex.Message);
+        memberView.PresentErrorMessage(ex.Message);
       }
     }
 
@@ -140,10 +135,10 @@ namespace Controller
     {
       try
       {
-        Member member = view.SelectMemberUI(fileHandler);
+        Member member = memberView.SelectMemberUI(fileHandler);
         List<Boat> boats = member.Boats;
 
-        Boat boat = view.SelectBoatUI(boats);
+        Boat boat = boatView.SelectBoatUI(boats);
 
         if (boat != null && member != null)
         {
@@ -151,12 +146,12 @@ namespace Controller
         }
         else if (boat == null)
         {
-          view.PresentErrorMessage("No boats registered to this member.");
+          memberView.PresentErrorMessage("No boats registered to this member.");
         }
       }
       catch (Exception ex)
       {
-        view.PresentErrorMessage(ex.Message);
+        memberView.PresentErrorMessage(ex.Message);
       }
     }
 
@@ -167,14 +162,14 @@ namespace Controller
     {
       try
       {
-        Member member = view.SelectMemberUI(fileHandler);
-        Boat boat = view.EnterBoatUI();
+        Member member = memberView.SelectMemberUI(fileHandler);
+        Boat boat = boatView.EnterBoatUI();
 
         fileHandler.RegisterBoat(member, boat);
       }
       catch (Exception ex)
       {
-        view.PresentErrorMessage(ex.Message);
+        memberView.PresentErrorMessage(ex.Message);
       }
     }
   }

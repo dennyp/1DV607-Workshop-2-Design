@@ -1,4 +1,6 @@
 ﻿using System;
+using Controller;
+using View;
 
 namespace Workshop_2___Design
 {
@@ -7,8 +9,8 @@ namespace Workshop_2___Design
     static void Main(string[] args)
     {
       Boolean isRunning = true;
-      View.UserInterface view = new View.UserInterface();
-      Controller.Secretary secretary = new Controller.Secretary();
+      MemberView view = new MemberView();
+      Secretary secretary = new Secretary();
 
       do
       {
