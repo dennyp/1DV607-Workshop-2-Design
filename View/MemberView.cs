@@ -91,8 +91,7 @@ namespace View
 
     public void ShowMemberListUI(List<Member> members)
     {
-      Console.Write($"Type {compactListChar} for a compact list or {verboseListChar} for a verbose list of the members: ");
-      string format = Console.ReadLine();
+      string format = GetFormatForList();
 
       foreach (var member in members)
       {
@@ -105,6 +104,13 @@ namespace View
           PresentVerboseMemberString(member);
         }
       }
+    }
+
+    private string GetFormatForList()
+    {
+      Console.Write($"Type {compactListChar} for a compact list or {verboseListChar} for a verbose list of the members: ");
+      string format = Console.ReadLine();
+      return format;
     }
 
     public void ShowMemberUI(List<Member> members)
