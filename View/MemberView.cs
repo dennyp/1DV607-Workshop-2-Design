@@ -39,17 +39,40 @@ namespace View
 
     public Member UpdateMemberUI()
     {
+      Console.WriteLine("-----------------------");
       Console.WriteLine("Change the following member.");
 
       int memberId = GetMemberIdUI();
 
-      Console.Write("Modify name: ");
-      string name = Console.ReadLine();
-
-      Console.Write("Modify SSN: ");
-      string ssn = Console.ReadLine();
+      string name = GetName();
+      string ssn = GetSSN();
 
       return new Member(name, ssn, memberId);
+    }
+
+    public Member RegisterMemberUI()
+    {
+      Console.WriteLine("-----------------------");
+      Console.WriteLine("Please create a new member below.");
+
+      string name = GetName();
+      string ssn = GetSSN();
+
+      return new Member(name, ssn);
+    }
+
+    private string GetName()
+    {
+      Console.Write("Name: ");
+      string name = Console.ReadLine();
+      return name;
+    }
+
+    private string GetSSN()
+    {
+      Console.Write("Personal id: ");
+      string ssn = Console.ReadLine();
+      return ssn;
     }
 
     private int GetMemberIdUI()
@@ -64,20 +87,6 @@ namespace View
       int memberId = int.Parse(Console.ReadLine());
 
       return fileHandler.GetMember(memberId);
-    }
-
-    public Member RegisterMemberUI()
-    {
-      Console.WriteLine("-----------------------");
-      Console.WriteLine("Please create a new member below.");
-
-      Console.Write("Name: ");
-      string name = Console.ReadLine();
-
-      Console.Write("Personal id: ");
-      string ssn = Console.ReadLine();
-
-      return new Member(name, ssn);
     }
 
     public void ShowMemberListUI(List<Member> members)
